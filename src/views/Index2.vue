@@ -3,12 +3,12 @@
     <my-header></my-header>
     <div class="container">
       <div v-if="!photos" class="row mt-5 py-5 px-5" >
-        <div class="col-12 my-5 py-5 z-depth-1 h-100 blue lighten-4">
+        <div class="col-12 my-5 py-5 z-depth-1 h-100 white">
           
           <!--Section: Content-->
           <section class="text-center px-md-5 mx-md-5 dark-grey-text ">
 
-            <h1>vous n'avez aucune photos </h1>
+            <h1 class="font-weight-bold">vous n'avez aucune photos </h1>
             <router-link class="btn btn-success btn-md mt-3 waves-effect" to="/add-photo">Add Photo</router-link>
             <!-- <a class="btn btn-outline-info btn-md mt-3 waves-effect" href="#" role="button">Download<i class="fa fa-download ml-1"></i></a> -->
 
