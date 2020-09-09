@@ -16,6 +16,7 @@
                   <div class="col-md-6">
                     <h1 class="mb-4 font-weight-bold">Une gallerie de <br><span class="cyan-text">toutes vos photos</span><br>professionelles.</h1>
                     <p class="mb-4 pb-2 dark-grey-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam vitae, culpa qui officia deserunt laborum fuga similique mollit id quos aperiam proident non ut rerum debitis.</p>
+                    <router-link class="nav-link" to="/my-photos">Photos</router-link>
                     <button type="button" class="btn btn-info btn-rounded btn-md ml-md-0">ABOUT US</button>
                   </div>
                   <!--Grid column-->
