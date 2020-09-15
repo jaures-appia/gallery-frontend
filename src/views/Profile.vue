@@ -131,7 +131,7 @@ export default {
     updateAndSeePhoto(){
       axios({
         method: 'put',
-        url: 'http://localhost:3000/users/'+this.id,
+        url: 'http://localhost:8000/api/v1/auth/user/'+this.id,
         data: {
           username: this.username,
           email: this.email,
@@ -154,7 +154,7 @@ export default {
   },
   mounted(){
     axios
-    .get('http://localhost:3000/users/'+this.id)
+    .get('http://localhost:8000/api/v1/auth/user/'+this.id)
     .then((res) => {
      console.log(res.data)
       this.username = res.data.username

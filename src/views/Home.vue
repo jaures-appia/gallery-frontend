@@ -31,10 +31,10 @@
                         <p class="h4 mb-4">Sign in</p>
     
                         <!-- Email -->
-                        <input type="text" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Username or E-mail">
+                        <input type="text" id="defaultLoginFormEmail" v-model="signInEmail" class="form-control mb-4" placeholder="Username or E-mail">
     
                         <!-- Password -->
-                        <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
+                        <input type="password" id="defaultLoginFormPassword" v-model="signInPwd" class="form-control mb-4" placeholder="Password">
     
                         <div class="d-flex justify-content-around">
                             <div>
@@ -44,7 +44,7 @@
                         </div>
     
                         <!-- Sign in button -->
-                        <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+                        <button class="btn btn-info btn-block my-4" type="submit" @click="signIn">Sign in</button>
     
                         <!-- Register -->
                         <p>Not a member?
@@ -123,6 +123,8 @@ export default {
     return{
       login: true,
       register: false,
+      signInEmail: null,
+      signInPwd: null,
       username: null,
       email: null,
       password: null,
@@ -139,11 +141,27 @@ export default {
       this.login = false,
       this.register = true
     },
+    signIn(){
+      axios({
+        method: 'post',
+        url: 'http://localhost:8000/api/v1/auth/login',
+        data: {
+          email: this.signInEmail,
+          password: this.signInPwd
+        }
+      })
+      .then((res) => {
+        console.log(res)
+        // let ID = res.data.user._id
+        // this.$router.push({name: 'Profile', params: {userID: ID}})
+      })
+      .catch((e)=>console.log(e))
+    },
     addUser(){
       // console.log(this.username, this.email, this.password, this.rePassword,)
       axios({
         method: 'post',
-        url: 'http://localhost:3000/users/',
+        url: 'http://localhost:8000/api/v1/auth/signup',
         data: {
           username: this.username,
           email: this.email,
@@ -152,7 +170,8 @@ export default {
         }
       })
       .then((res) => {
-        let ID = res.data.id
+        console.log(res)
+        let ID = res.data.user._id
         this.$router.push({name: 'Profile', params: {userID: ID}})
       })
       .catch((e)=>console.log(e))

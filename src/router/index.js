@@ -5,6 +5,7 @@ import Index2 from '../views/Index2.vue'
 import AddPhoto from '../views/AddPhoto.vue'
 import SinglePhoto from '../views/SinglePhoto.vue'
 import Profile from '../views/Profile.vue'
+import NotFound from '../views/404.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,10 @@ Vue.use(VueRouter)
     path: '/single-photo/:photoID',
     name: 'SinglePhoto',
     component: SinglePhoto
+  },
+  {
+    path: '*',
+    component: NotFound
   },
   {
     path: '/profile/:userID',
