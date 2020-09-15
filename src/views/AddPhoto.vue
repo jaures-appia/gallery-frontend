@@ -5,7 +5,7 @@
          <div class="row mt-5 mb-5 rotate-vert-center">
             <div class="col-lg-6 offset-lg-3">
                 <!-- Default form contact -->
-                <form class="text-center border border-dark border-top-0 border-right-0 p-5" action="" method="post">
+                <form class="text-center border border-dark border-top-0 border-right-0 p-5" enctype="multipart/form-data" action="" method="post">
 
                 <p class="h4 mb-4">Add New Photo</p>
 
@@ -18,17 +18,17 @@
                 <input type="text" id="defaultContactFormName" class="form-control mb-4" v-model="title" placeholder="Title">
 
                 <!-- photo -->
-                <!-- <div class="input-group mb-4">
+                <div class="input-group mb-4">
                     <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                     </div>
                     <div class="custom-file">
-                    <input type="file" class="custom-file-input form-group" id="inputGroupFile01"
+                    <input type="file" @change="selectedFile" class="custom-file-input form-group" id="inputGroupFile01"
                         aria-describedby="inputGroupFileAddon01">
                     <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                     </div>
-                </div> -->
-                <input type="text" id="defaultContactFormName" class="form-control mb-4" placeholder="Url de la photo" v-model="photoUrl">
+                </div>
+                <!-- <input type="text" id="defaultContactFormName" class="form-control mb-4" placeholder="Url de la photo" v-model="photoUrl"> -->
 
                 <!-- Message -->
                 <div class="form-group">
@@ -63,27 +63,43 @@ export default {
     return{
       title: null,
       photoUrl: null,
-      description: null
+      description: null,
+      file: null
     }
   },
   methods:{
+
+    selectedFile(event){
+      console.log(event)
+      this.file = event.target.files[0]
+      console.log(this.file)
+    },
     addPhoto(){
+      const fd = new FormData()
+      fd.append('image', this.file, this.file.name)
+      fd.append('title', this.title)
+      fd.append('description', this.description)
+      fd.append('UserId', "5f60c9bc27c61a2978be4c95")
       axios({
         method: 'post',
-        url: 'http://localhost:3000/photos/',
-        data: {
-          title: this.title,
-          description: this.description,
-          photoUrl: this.photoUrl,
-          createAt: Date.now(),
-        }
+        url: 'http://localhost:8000/api/v1/photo',
+        data: fd
+        // {
+        //   photo: fd
+        //   title: this.title,
+        //   description: this.description,
+        //   photoUrl: fd,
+        //   UserId: "5f60c9bc27c61a2978be4c95"
+        // }
       })
       .then((res) => {
-        let ID = res.data.id
-        this.$router.push({name: 'SinglePhoto', params: {photoID: ID}})
+        // let ID = res.data.id
+        // this.$router.push({name: 'SinglePhoto', params: {photoID: ID}})
+        console.log(res)
       })
       .catch((e)=>console.log(e))
-    }
+    },
+    
   },
 }
 </script>
