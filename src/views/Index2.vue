@@ -35,7 +35,7 @@
                       <div class="card hoverable">
               
                         <!-- Card image -->
-                        <router-link :to="{ name: 'SinglePhoto', params: { photoID: photo.id }}"><img class="card-img-top" :src="photo.photoUrl" alt="Card image cap"></router-link>
+                        <router-link :to="{ name: 'SinglePhoto', params: { photoID: photo._id }}"><img class="card-img-top" :src="photo.photoUrl" alt="Card image cap"></router-link>
                         <!-- <a href="single-photo.html"><img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/58.jpg" alt="Card image cap">
                         </a> -->
               
@@ -117,7 +117,7 @@ export default {
   },
   mounted(){
     axios
-    .get('http://localhost:3000/photos')
+    .get('http://localhost:8000/api/v1/photo')
     .then((res) => {
       this.photos = res.data
     })

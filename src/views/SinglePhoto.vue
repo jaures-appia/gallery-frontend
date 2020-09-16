@@ -56,17 +56,17 @@
                     <input type="text" id="defaultContactFormName" class="form-control mb-4" placeholder="Title" v-model="title">
         
                     <!-- photo -->
-                    <input type="text" id="defaultContactFormName" class="form-control mb-4" placeholder="Title" v-model="photoUrl" >
-                    <!-- <div class="input-group mb-4">
+                    <!-- <input type="text" id="defaultContactFormName" class="form-control mb-4" placeholder="Title" v-model="photoUrl" > -->
+                    <div class="input-group mb-4">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                     </div>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input form-group" id="inputGroupFile01"
+                        <input type="file" @change="selectedFile" value="photoUrl" class="custom-file-input form-group" id="inputGroupFile01"
                         aria-describedby="inputGroupFileAddon01">
                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                     </div>
-                    </div> -->
+                    </div>
         
                     <!-- Message -->
                     <div class="form-group">
@@ -106,34 +106,55 @@ export default {
       title: null,
       description: null,
       photoUrl: null,
+      photoName: null,
+      file: null
     }
   },
   methods:{
+    
     isModifyPhoto(){
         this.seePhoto = false,
         this.modifyPhoto = true
     },
+    selectedFile(event){
+      console.log(event)
+      this.file = event.target.files[0]
+      console.log(this.file)
+    },
     updateAndSeePhoto(){
-      axios({
-        method: 'put',
-        url: 'http://localhost:3000/photos/'+this.id,
-        data: {
+      let data
+      if(this.file){
+        const fd = new FormData()
+        fd.append('image', this.file, this.file.name)
+        fd.append('title', this.title)
+        fd.append('description', this.description)
+        fd.append('UserId', "5f60c9bc27c61a2978be4c95")
+        data = fd
+      }else{
+        data = {
           title: this.title,
           description: this.description,
           photoUrl: this.photoUrl,
-        }
+          UserId: "5f60c9bc27c61a2978be4c95"
+          }
+      }
+      axios({
+        method: 'put',
+        url: 'http://localhost:8000/api/v1/photo/'+this.id,
+        data: data
       })
       .then((res) => {
-        this.photo = res.data
-        this.seePhoto = true,
-        this.modifyPhoto = false
+        console.log(res)
+        // this.photo = res.data
+        // this.seePhoto = true,
+        // this.modifyPhoto = false
       })
       .catch((e)=>console.log(e))
     
         
     },
     deletePhoto(){
-      let url = 'http://localhost:3000/photos/' + this.id
+      let url = 'http://localhost:8000/api/v1/photo/' + this.id
       axios({
         method: 'delete',
         url: url,
@@ -146,17 +167,20 @@ export default {
   },
   mounted(){
     axios
-    .get('http://localhost:3000/photos/'+this.id)
+    .get('http://localhost:8000/api/v1/photo/'+this.id)
     .then((res) => {
       this.photo = res.data
       this.title = this.photo.title
       this.description = this.photo.description
       this.photoUrl = this.photo.photoUrl
+      this.photoName = this.photo.photoUrl.split('/images/')[1]
     })
     .catch((e) => {
       console.log(e)
     })
   }
+    
+  
 }
 </script>
 
